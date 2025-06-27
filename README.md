@@ -1,69 +1,103 @@
-# React + TypeScript + Vite
+# URL Shortener Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A production-ready URL Shortener built using **React** and **Material UI**. Users can shorten up to 5 URLs at once, set custom shortcodes, and define expiration times. All data (shortened URLs, click logs, analytics) is stored client-side using `localStorage`.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Shorten up to **5 URLs** at once
+- Optional custom shortcode (must be unique and alphanumeric)
+- Optional expiry time in minutes (defaults to 30 mins)
+- Client-side validation for URL, shortcode, and validity
+- Stores all data in `localStorage`
+- Tracks click events: timestamp, source, and mock location
+- View statistics: original URL, short URL, click count, click history
+- Redirects short URL from `/shortcode` to original URL
+- Custom middleware for logging (no console.log)
+- Clean code structure with React + `react-router-dom` for routing
+- Fully styled with **Material UI**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **React**
+- **Material UI (MUI)**
+- **React Router DOM**
+- **TypeScript**
+- `localStorage` (for persistence)
+- `uuid` or `nanoid` (for shortcode generation)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Project Structure
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+src/
+│
+├── components/
+│   ├── UrlForm.tsx          # Form to shorten URLs
+│   ├── UrlList.tsx          # Displays list of shortened URLs
+│   └── StatsPage.tsx        # Statistics and click analytics
+│
+├── middleware/
+│   └── logger.ts            # Custom logging middleware
+│
+├── pages/
+│   ├── Home.tsx             # Main form + URL list
+│   └── RedirectHandler.tsx  # Redirect logic based on shortcode
+│
+├── utils/
+│   ├── validators.ts        # URL & shortcode validation logic
+│   └── storage.ts           # Abstraction over localStorage
+│
+└── App.tsx                  # Router and main layout
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+````
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/ashbhati26/22131011190.git
+cd url-shortener
+npm install
+npm start
+````
+
+The app runs locally at:
+**[http://localhost:3000](http://localhost:3000)**
+
+---
+
+## Usage
+
+1. Enter one or more long URLs (up to 5).
+2. Optionally provide:
+
+   * A **custom shortcode**
+   * A **validity duration** in minutes.
+3. Click **Shorten** to generate short links.
+4. Visit the short URL to trigger redirection and track clicks.
+5. Go to the **Statistics** page to see analytics.
+
+---
+
+## Notes
+
+* All data is stored in `localStorage` — clearing browser storage will remove saved links and analytics.
+* IP-based location tracking is mocked for privacy and simplicity.
+* This project avoids external APIs or databases for demo/test purposes.
+
+---
+
+## Clean Code Practices
+
+* Modular component structure
+* Reusable utility and middleware functions
+* Descriptive error messages
+* Strict TypeScript usage
+* No `console.log` — custom logger is used instead
